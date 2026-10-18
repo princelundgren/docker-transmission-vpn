@@ -32,17 +32,14 @@ RUN wget https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip --direc
 RUN unzip /etc/openvpn/ovpn.zip
 RUN rm /etc/openvpn/ovpn.zip
 
-# Copying nordVPN server settings
-COPY pl89.nordvpn.com.tcp.ovpn /etc/openvpn/
-
-# Copyying credentials
-COPY credentials.txt /etc/openvpn/
+# Copying Mullvad VPN settings to OpenVPN
+COPY /vpnconfig/* /etc/openvpn/
 
 # Running openVPN
-RUN openvpn --config /etc/openvpn/pl89.nordvpn.com.udp.ovpn
+RUN service openvpn start
 
-EXPOSE 9091
-EXPOSE 22
+#EXPOSE 9091
+#EXPOSE 22
 
 USER docker-user
 CMD ["/bin/bash"]
